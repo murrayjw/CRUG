@@ -10,7 +10,7 @@ console = d3.window(svg.node()).console;
 // Filter function for updating the data with each year
 function filterYear(data, year) {
   
-        return data.filter(function(point) { return point.year === parseInt(year); });
+  return data.filter(function(point) { return point.year === parseInt(year); });
  }
    
    
@@ -68,30 +68,31 @@ function updateChart(data) {
   const labels = chart.selectAll(".bar-label")
     .data(data, (d) => d.country_name);
 
-  bars.join(
-    enter => enter.append("rect")
-      .attr("class", "bar")
-      .attr("x", 0)
-      .attr("y", (d, i) => (d.order - 1) * (barHeight + barPadding))
-      .attr("width", 0)
-      .attr("height", barHeight)
-      .call(enter => enter.transition()
-        .duration(iteration_speed)
-        .attr("width", (d) => xScale(d.population))
-        .attr("y", (d, i) => (d.order - 1) * (barHeight + barPadding))
-      ),
-    update => update.call(update => update.transition()
+bars.join(
+  enter => enter.append("rect")
+    .attr("class", "bar")
+    .attr("x", 0)
+    .attr("y", (d, i) => (d.order - 1) * (barHeight + barPadding))
+    .attr("width", 0)
+    .attr("height", barHeight)
+    .call(enter => enter.transition()
       .duration(iteration_speed)
       .attr("width", (d) => xScale(d.population))
       .attr("y", (d, i) => (d.order - 1) * (barHeight + barPadding))
     ),
-    exit => exit.call(exit => exit.transition()
+  update => update.attr("class", "bar")
+    .call(update => update.transition()
+      .duration(iteration_speed)
+      .attr("width", (d) => xScale(d.population))
+      .attr("y", (d, i) => (d.order - 1) * (barHeight + barPadding))
+    ),
+  exit => exit.call(exit => exit.transition()
       .duration(iteration_speed)
       .attr("width", 0)
       .attr("y", 5000)
       .remove()
     )
-  );
+);
 
   labels.join(
     enter => enter.append("text")
