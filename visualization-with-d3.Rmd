@@ -28,6 +28,8 @@ output:
 - Building an animated Kaplan Meier curve in D3
 - Sharing your visualization in rmarkdown, shiny and as a standalone page
 - Show how to combine D3 and R to create powerful interactive visualizations
+- [Content on github](https://github.com/murrayjw/CRUG)
+
 .center[![description of the image](img/d3-r2d3.PNG)]
 
 

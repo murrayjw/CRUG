@@ -41,6 +41,8 @@ class: center, middle, inverse, title-slide
 - Building an animated Kaplan Meier curve in D3
 - Sharing your visualization in rmarkdown, shiny and as a standalone page
 - Show how to combine D3 and R to create powerful interactive visualizations
+- [Content on github](https://github.com/murrayjw/CRUG)
+
 .center[![description of the image](img/d3-r2d3.PNG)]
 
 
@@ -411,8 +413,8 @@ const circles = svg.selectAll("circle")
 ## Step 5: Creating Circles
 
 .pull-left[
-- For each data point, append a circle element to the SVG using the `enter()` method:
-  `circles.enter().append("circle");`
+- For each data point, append a circle element to the SVG using the `join()` method:
+  `circles.join("circle");`
 - Set the attributes of the circles, such as `cx`, `cy`, and `r`, to define their position and size:
   `circles.attr("cx", (d, i) =&gt; i * 50 + 50).attr("cy", 150).attr("r", (d) =&gt; d);`
 ]
@@ -421,29 +423,36 @@ const circles = svg.selectAll("circle")
 
 ```js
 // Create circles for each data point
-circles.enter()
-  .append("circle")
-  .attr("cx", (d, i) =&gt; i * 50 + 50)
+circles.join("circle")
+  .attr("cx", (d, i) =&gt; d + i * 100)
   .attr("cy", 150)
   .attr("r", (d) =&gt; d)
-  .attr("fill", "steelblue")
+  .attr("fill", "red")
   .attr("stroke", "black");
 ```
 
 
 &lt;script type="text/javascript"&gt;
 // Create circles for each data point
-circles.enter()
-  .append("circle")
-  .attr("cx", (d, i) =&gt; i * 50 + 50)
+circles.join("circle")
+  .attr("cx", (d, i) =&gt; d + i * 100)
   .attr("cy", 150)
   .attr("r", (d) =&gt; d)
-  .attr("fill", "steelblue")
+  .attr("fill", "red")
   .attr("stroke", "black");
 &lt;/script&gt;
 ]
 
 ---
+
+## More on joins
+
+-Select the elements: Use the selectAll() method to select the elements to which you want to bind the data. This can be done by providing a CSS selector or by selecting an existing selection. For example, d3.selectAll("circle") selects all the circle elements.
+
+- Bind the data: Call the data() method on the selection and pass the data array that you want to bind. The data array is typically an array of objects, with each object representing a data point. You can also specify an optional key function to uniquely identify each data point. For example, .data(data, d =&gt; d.id) binds the data array to the selection, using the id property as the key.
+
+- Join the enter, update, and exit selections: After binding the data, call the join() method on the selection. The join() method internally handles the enter, update, and exit selections based on the bound data. It returns a new selection that represents all the elements in the combined enter and update selections.
+
 
 ## Next steps
 
