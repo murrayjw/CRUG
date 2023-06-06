@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Creating Animated Visualizations in R with D3</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.14/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Creating Animated Visualizations in R with D3
+]
+
+---
+
+
+
+# Objectives
+
+
+- Give a brief introduction to the D3 javascript library 
+--
+- Show how to combine D3 and R to create powerful interactive visualizations
+.center[![description of the image](img/d3-r2d3.PNG)]
+
+---
+
+# Agenda
+
+
+- What is D3?
+- Building your first plot with D3
+- Adding animation to a plot
+- What is r2d3?
+- Building an animated Kaplan Meier curve in D3
+- Sharing your visualization in rmarkdown, shiny and as a standalone page
+- Show how to combine D3 and R to create powerful interactive visualizations
+.center[![description of the image](img/d3-r2d3.PNG)]
+
+
+---
+
+# About me
+
+- From the east coast of Canada (NB), but live in Toronto, Ontario
+- Statistician by training, worked as a data scientist in healthcare since 2012. 
+- Taught applied statistics and data science at U of T
+- Been with Cytel since August of 2022
+- Support Novartis, primarily building Shiny applications and animated visualizations
+
+---
+
+# Animated Visualizations in Data Storytelling
+
+- In today's data-driven world, the ability to effectively communicate data insights is essential.
+- Static charts and graphs often struggle to capture the audience's attention and convey the full story behind the data.
+- Animated visualizations bring data to life by providing dynamic, interactive, and visually engaging representations.
+- Through the power of animation, we can highlight patterns, transitions, and relationships within the data that may otherwise go unnoticed.
+- By incorporating animation into data storytelling, we can enhance understanding, evoke emotions, and create memorable experiences for our audience.
+
+*Animated visualizations are a powerful tool in the data storyteller's toolkit, allowing us to deliver impactful narratives and communicate complex information in an accessible and engaging way.*
+
+---
+
+# When you might not want animations
+
+- Animations may distract viewers from the main message or data points.
+- Animations can introduce unnecessary complexity, making the visualization harder to understand.
+  - They can overwhelm the viewer
+- Animations may pose accessibility challenges for individuals with certain disabilities or impairments.
+- Animations that do not serve a clear purpose or provide meaningful insights may be unnecessary.
+- Animations may not be compatible with certain devices, browsers, or platforms.
+
+---
+
+# Introduction to D3 Visualizations
+
+- D3 (Data-Driven Documents) is a powerful JavaScript library for creating interactive and dynamic data visualizations.
+
+&gt;D3.js is a JavaScript library for manipulating documents based on data. &gt;D3 helps you bring data to life using HTML, SVG, and CSS. D3’s emphasis &gt;on web standards gives you the full capabilities of modern browsers &gt;without tying yourself to a proprietary framework, combining powerful &gt;visualization components and a data-driven approach to DOM manipulation.
+
+
+---
+
+## Key Features of D3
+
+- Data-Driven: D3 enables the creation of visualizations that are driven by data. It allows for the binding of data to visual elements, enabling dynamic updates based on changes in the data.
+
+- Web Standards: D3 leverages web standards such as HTML, CSS, and SVG to create visualizations that are web-native and can be easily integrated into web applications.
+
+- Customization and Flexibility: D3 provides a rich set of APIs and methods that give developers full control over the visual representation and behavior of their data visualizations.
+
+- Interactive and Dynamic: D3 allows for the creation of interactive visualizations with support for user interactions, animations, and transitions, providing a compelling user experience.
+
+
+---
+
+## Why Use D3?
+
+- Flexible: D3 offers flexibility in designing and customizing data visualizations, allowing developers to create unique and tailored experiences. Really, it's up to your imagination.
+
+.center[![description of the image](img/d3-gallery.PNG)]
+
+---
+
+## Why Use D3?
+
+
+
+- Vast Visualization Capabilities: D3 provides a comprehensive set of visualization techniques, 
+
+- Out of the box, D3 provides capabilities from from basic charts and graphs to complex network diagrams and geographical maps.
+
+.center[![description of the image](img/d3-examples.PNG)]
+
+---
+
+## Why Use D3?
+
+- Community and Ecosystem: D3 has a large and active community of developers and enthusiasts, providing a wealth of resources, tutorials, and examples to learn from and leverage.
+
+.center[![description of the image](img/d3-community.PNG)]
+
+---
+
+
+## What is D3?
+
+- D3 leverages web standards such as HTML, CSS, JS, and SVG to manipulate the DOM and display data in a visually compelling manner.
+
+- D3 works by binding data to the Document Object Model (DOM) and using JavaScript to manipulate the DOM to create visual representations of the data.
+
+- It allows for the creation of scalable and interactive visualizations that can respond to user interactions and data changes.
+
+.center[![description of the image](img/html-css-js.PNG)]
+
+---
+
+## The Document Object Model (DOM)
+
+.pull-left[
+- The DOM represents the structure of an HTML or XML document as a tree-like structure.
+- D3 interacts with the DOM, allowing developers to select and manipulate elements, modify styles and attributes, and dynamically update visual representations.
+]
+
+
+.pull-right[![description of the image](img/dom.PNG)]
+
+
+---
+
+## Scalable Vector Graphics (SVG)
+
+- SVG (Scalable Vector Graphics) provides a set of elements for creating vector-based graphics. Here are a few basic SVG elements commonly used in D3 visualizations:
+
+- `&lt;rect&gt;` is used to create rectangles in SVG.
+
+.pull-left[
+`&lt;rect x="50" y="50" width="100" height="100" fill="red" stroke="black" /&gt;`
+]
+   
+.pull-right[
+![description of the image](img/square.PNG)
+]
+
+---
+
+## Scalable Vector Graphics (SVG)
+
+- SVG (Scalable Vector Graphics) provides a set of elements for creating vector-based graphics. Here are a few basic SVG elements commonly used in D3 visualizations:
+
+- `&lt;rect&gt;` is used to create rectangles in SVG.
+
+.pull-left[
+`&lt;rect x="50" y="50" width="100" height="200" fill="red" stroke="black" /&gt;`
+]
+   
+.pull-right[
+![description of the image](img/rect.PNG)
+]
+  
+---
+
+## Scalable Vector Graphics (SVG)
+
+- SVG (Scalable Vector Graphics) provides a set of elements for creating vector-based graphics. Here are a few basic SVG elements commonly used in D3 visualizations:
+
+- `&lt;circle&gt;` is used to create rectangles in SVG.
+
+.pull-left[
+`&lt;circle cx="100" cy="100" r="50" fill="steelblue" stroke="black" /&gt;`
+]
+   
+.pull-right[
+![description of the image](img/circle-blue.PNG)
+]  
+
+---
+
+## Scalable Vector Graphics (SVG)
+
+- SVG (Scalable Vector Graphics) provides a set of elements for creating vector-based graphics. Here are a few basic SVG elements commonly used in D3 visualizations:
+
+- `&lt;circle&gt;` is used to create rectangles in SVG.
+
+.pull-left[
+`&lt;circle cx="100" cy="100" r="50" fill="red" stroke="black" /&gt;`
+]
+   
+.pull-right[
+![description of the image](img/circle-red.PNG)
+]  
+  
+---
+
+## Scalable Vector Graphics (SVG)
+
+- `&lt;line&gt;` is used to create rectangles in SVG.
+
+.pull-left[
+`&lt;line x1="50" y1="50" x2="150" y2="150" stroke="black" stroke-width="2" /&gt;`
+]
+   
+.pull-right[
+![description of the image](img/line1.PNG)
+]  
+ 
+---
+
+## Scalable Vector Graphics (SVG)
+
+- `&lt;line&gt;` is used to create lines in SVG.
+
+.pull-left[
+`&lt;line x1="50" y1="50" x2="150" y2="50" stroke="black" stroke-width="2" /&gt;`
+]
+   
+.pull-right[
+![description of the image](img/line2.PNG)
+]   
+  
+---
+
+## Scalable Vector Graphics (SVG)
+
+- `&lt;line&gt;` is used to create rectangles in SVG.
+
+.pull-left[
+`&lt;line x1="50" y1="250" x2="150" y2="50" stroke="black" stroke-width="2" /&gt;`
+]
+
+.pull-right[
+![description of the image](img/line2.PNG)
+]   
+  
+  
+---
+
+## Scalable Vector Graphics (SVG)
+
+
+- `&lt;text&gt;` is used to display text in SVG. 
+
+.pull-left[
+`&lt;text x="50" y="100" font-size="16" fill="black" text-anchor="start"&gt;Hello, SVG!&lt;/text&gt;`
+]
+
+.pull-right[
+![description of the image](img/text.PNG)
+] 
+
+
+---
+
+# Creating Your First Plot with D3
+
+- In this section, we'll walk through the steps to create your first plot using D3.
+- We'll start with a simple example to demonstrate the basic concepts and syntax of D3.
+
+
+---
+
+## Step 1: Setting Up the HTML
+
+.pull-left[
+- Begin by creating an HTML file (`index.html`).
+- Include the D3 library using a script tag:
+  `&lt;script src="https://d3js.org/d3.v7.min.js"&gt;&lt;/script&gt;`
+- Create a container element in the HTML body to hold the plot:
+  `&lt;div id="chart"&gt;&lt;/div&gt;`
+]
+
+.pull-right[
+
+```html
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;First D3 Visualization&lt;/title&gt;
+ &lt;script src="https://d3js.org/d3.v7.min.js"&gt;&lt;/script&gt; #&lt;&lt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="chart"&gt;&lt;/div&gt;
+  &lt;script src="index.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+
+```
+]
+
+
+---
+
+
+## Step 2: Selecting the Container
+
+.pull-left[
+- In your JavaScript code, select the container element using D3's `select()` method:
+  `const container = d3.select("#chart");`
+- This selection will allow us to append SVG elements to the container and manipulate them.
+]
+
+.pull-right[
+
+```js
+const container = d3.select("#chart");
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+const container = d3.select("#chart");
+
+&lt;/script&gt;
+]
+---
+
+## Step 3: Creating SVG Elements
+
+.pull-left[
+- Append an SVG element to the container using the `append()` method:
+  `const svg = container.append("svg");`
+- Set the width and height attributes of the SVG element:
+  `svg.attr("width", 400).attr("height", 300);`
+]
+
+
+.pull-right[
+
+```js
+const svg = container.append("svg")
+  .attr("width", 400)
+  .attr("height", 300);
+
+```
+
+
+&lt;script type="text/javascript"&gt;
+const svg = container.append("svg")
+  .attr("width", 400)
+  .attr("height", 300);
+
+&lt;/script&gt;
+]
+---
+
+## Step 4: Binding Data
+
+.pull-left[
+- Bind data to the SVG element using the `data()` method:
+  `const data = [10, 20, 30, 40, 50];`
+  `const circles = svg.selectAll("circle").data(data);`
+- This associates each data point with a corresponding SVG element (in this case, circles).
+
+]
+
+.pull-right[
+
+```js
+// Define the data
+const data = [10, 20, 30, 40, 50];
+
+// Bind data to circles
+const circles = svg.selectAll("circle")
+  .data(data);
+  
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Define the data
+const data = [10, 20, 30, 40, 50];
+
+// Bind data to circles
+const circles = svg.selectAll("circle")
+  .data(data);
+  
+&lt;/script&gt;
+]
+---
+
+
+## Step 5: Creating Circles
+
+.pull-left[
+- For each data point, append a circle element to the SVG using the `enter()` method:
+  `circles.enter().append("circle");`
+- Set the attributes of the circles, such as `cx`, `cy`, and `r`, to define their position and size:
+  `circles.attr("cx", (d, i) =&gt; i * 50 + 50).attr("cy", 150).attr("r", (d) =&gt; d);`
+]
+
+.pull-right[
+
+```js
+// Create circles for each data point
+circles.enter()
+  .append("circle")
+  .attr("cx", (d, i) =&gt; i * 50 + 50)
+  .attr("cy", 150)
+  .attr("r", (d) =&gt; d)
+  .attr("fill", "steelblue")
+  .attr("stroke", "black");
+```
+
+
+&lt;script type="text/javascript"&gt;
+// Create circles for each data point
+circles.enter()
+  .append("circle")
+  .attr("cx", (d, i) =&gt; i * 50 + 50)
+  .attr("cy", 150)
+  .attr("r", (d) =&gt; d)
+  .attr("fill", "steelblue")
+  .attr("stroke", "black");
+&lt;/script&gt;
+]
+
+---
+
+## Next steps
+
+.center[
+Congrats on making your first plot. To become a competent D3 programmer, here are the next things you should learn:
+
+]
+
+---
+
+## Scales
+
+- Scales in D3 help you map data values to visual properties, such as positions or colors.
+- Learn about various types of scales, including linear, ordinal, logarithmic, and more.
+- Understand how to use scales to create consistent and meaningful visual representations of data.
+
+---
+
+## Axes
+
+- Axes provide visual guides for displaying reference marks along scales.
+
+- Explore how to create axes in D3 to provide labels and ticks for your visualizations.
+
+- Learn about different types of axes, such as linear, logarithmic, time, and categorical axes.
+
+---
+
+## Transitions (aka Animations)
+
+- Transitions in D3 enable smooth animations and gradual changes in visual elements.
+- Understand how to use transitions to add fluidity and enhance user experience in your visualizations.
+- Learn about easing functions, duration, and chaining transitions for more complex animations.
+
+---
+
+## Data Loading
+
+- Master techniques for loading data from various sources, such as JSON, CSV, or APIs.
+- Understand how to handle asynchronous data loading and parsing in D3.
+- Learn about data preprocessing, data transformations, and working with nested or hierarchical data structures.
+
+---
+
+## Layouts
+
+- Layouts in D3 help you generate complex visualizations, such as network graphs or tree diagrams.
+- Explore different types of layouts, including force-directed, hierarchical, and pack layouts.
+- Learn how to use layouts to organize and structure your data for effective visual representation.
+
+---
+
+## Brushes and Selections
+
+- Brushes allow users to select and manipulate data ranges within a visualization.
+- Discover how to implement brushes for data exploration and filtering.
+- Understand how to create selections to efficiently work with subsets of data or specific elements in your visualization.
+
+
+---
+
+## GeoJSON and Maps
+
+- D3 provides powerful tools for working with geographic data and creating interactive maps.
+- Learn how to handle GeoJSON data, project it onto various map projections, and render it using SVG or Canvas.
+- Explore techniques for adding tooltips, zooming, and interactivity to your map visualizations.
+
+---
+
+class: center
+background-image: url("img/r2d3.png")
+
+# 
+
+---
+
+
+
+# r2d3
+
+# scatterplot
+
+# animations
+
+# survival curve
+
+# resources
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create();
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

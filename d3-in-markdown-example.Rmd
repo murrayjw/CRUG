@@ -1,0 +1,35 @@
+---
+title: "Using D3 in Rmarkdown report"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Using D3 in markdown
+
+
+
+```{r load_data, message=F, warning=F}
+library(dplyr)
+library(survival)
+
+source('km-helpers.R')
+model_data <- veteran %>% mutate(trt = ifelse(trt == 1, "Standard Tx", "Test Tx"))
+```
+
+
+To include a D3 visualization in an Rmarkdown report, you can use the `r2d3::r2d3` function. You pass the name of the javascript file that contains your d3 script along with the data and any other dependencies.
+
+```{r plot_d2}
+km_model_data <- survfit(Surv(time, status) ~ trt, data = model_data)
+
+r2d3::r2d3(script = 'km-curve.js',
+           data=prep_kmd3_data(km_model_data), 
+           css="styles.css", 
+           d3_version = "6", 
+           dependencies = 'utils.js')
+
+```

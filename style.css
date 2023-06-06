@@ -1,0 +1,13 @@
+    .pull-left-35 {
+      float: left;
+      width: 35%;
+    }
+
+    .pull-right-60 {
+      float: right;
+     width: 60%;
+   }
+
+   .pull-right ~ p {
+    clear: both;
+   }
