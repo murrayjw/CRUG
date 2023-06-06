@@ -10,7 +10,9 @@ output:
 
 
 - Give a brief introduction to the D3 javascript library 
+
 --
+
 - Show how to combine D3 and R to create powerful interactive visualizations
 .center[![description of the image](img/d3-r2d3.PNG)]
 
@@ -20,9 +22,9 @@ output:
 
 
 - What is D3?
-- Building your first plot with D3
-- Adding animation to a plot
+- Building your first simple plot with D3
 - What is r2d3?
+- Adding animation to a plot
 - Building an animated Kaplan Meier curve in D3
 - Sharing your visualization in rmarkdown, shiny and as a standalone page
 - Show how to combine D3 and R to create powerful interactive visualizations
@@ -108,7 +110,7 @@ output:
 
 ## Why Use D3?
 
-- Community and Ecosystem: D3 has a large and active community of developers and enthusiasts, providing a wealth of resources, tutorials, and examples to learn from and leverage.
+- Community and Ecosystem: D3 has a large and active community of developers and enthusiasts. (see [Observable](https://observablehq.com/@d3/gallery) and [vizHub](https://vizhub.com/))
 
 .center[![description of the image](img/d3-community.PNG)]
 
@@ -392,6 +394,8 @@ circles.enter()
 
 .center[
 Congrats on making your first plot. To become a competent D3 programmer, here are the next things you should learn:
+
+![description of the image](img/congrats.PNG)
 
 ]
 
