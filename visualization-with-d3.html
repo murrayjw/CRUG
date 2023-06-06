@@ -40,7 +40,6 @@ class: center, middle, inverse, title-slide
 - Adding animation to a plot
 - Building an animated Kaplan Meier curve in D3
 - Sharing your visualization in rmarkdown, shiny and as a standalone page
-- Show how to combine D3 and R to create powerful interactive visualizations
 - [Content on github](https://github.com/murrayjw/CRUG)
 
 .center[![description of the image](img/d3-r2d3.PNG)]
@@ -60,23 +59,45 @@ class: center, middle, inverse, title-slide
 
 # Animated Visualizations in Data Storytelling
 
-- In today's data-driven world, the ability to effectively communicate data insights is essential.
+
 - Static charts and graphs often struggle to capture the audience's attention and convey the full story behind the data.
+
+--
+
 - Animated visualizations bring data to life by providing dynamic, interactive, and visually engaging representations.
+
+--
+
 - Through the power of animation, we can highlight patterns, transitions, and relationships within the data that may otherwise go unnoticed.
+
+--
+
 - By incorporating animation into data storytelling, we can enhance understanding, evoke emotions, and create memorable experiences for our audience.
 
-*Animated visualizations are a powerful tool in the data storyteller's toolkit, allowing us to deliver impactful narratives and communicate complex information in an accessible and engaging way.*
+--
+
+- Animated visualizations are a powerful tool allowing us to deliver strong narratives and communicate complex information in an accessible and engaging way.
 
 ---
 
 # When you might not want animations
 
 - Animations may distract viewers from the main message or data points.
+
+--
+
 - Animations can introduce unnecessary complexity, making the visualization harder to understand.
   - They can overwhelm the viewer
+  
+--
+
 - Animations may pose accessibility challenges for individuals with certain disabilities or impairments.
+
+--
 - Animations that do not serve a clear purpose or provide meaningful insights may be unnecessary.
+
+--
+
 - Animations may not be compatible with certain devices, browsers, or platforms.
 
 ---
@@ -85,7 +106,7 @@ class: center, middle, inverse, title-slide
 
 - D3 (Data-Driven Documents) is a powerful JavaScript library for creating interactive and dynamic data visualizations.
 
-&gt;D3.js is a JavaScript library for manipulating documents based on data. &gt;D3 helps you bring data to life using HTML, SVG, and CSS. D3’s emphasis &gt;on web standards gives you the full capabilities of modern browsers &gt;without tying yourself to a proprietary framework, combining powerful &gt;visualization components and a data-driven approach to DOM manipulation.
+&gt;D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS. D3’s emphasis on web standards gives you the full capabilities of modern browsers without tying yourself to a proprietary framework, combining powerful visualization components and a data-driven approach to DOM manipulation.
 
 
 ---
@@ -94,9 +115,16 @@ class: center, middle, inverse, title-slide
 
 - Data-Driven: D3 enables the creation of visualizations that are driven by data. It allows for the binding of data to visual elements, enabling dynamic updates based on changes in the data.
 
+--
+
 - Web Standards: D3 leverages web standards such as HTML, CSS, and SVG to create visualizations that are web-native and can be easily integrated into web applications.
 
+--
+
+
 - Customization and Flexibility: D3 provides a rich set of APIs and methods that give developers full control over the visual representation and behavior of their data visualizations.
+
+--
 
 - Interactive and Dynamic: D3 allows for the creation of interactive visualizations with support for user interactions, animations, and transitions, providing a compelling user experience.
 
@@ -292,8 +320,10 @@ class: center, middle, inverse, title-slide
 
 .pull-left[
 - Begin by creating an HTML file (`index.html`).
-- Include the D3 library using a script tag:
-  `&lt;script src="https://d3js.org/d3.v7.min.js"&gt;&lt;/script&gt;`
+
+- Include the D3 library using a script tag: 
+  -https://d3js.org/d3.v7.min.js
+
 - Create a container element in the HTML body to hold the plot:
   `&lt;div id="chart"&gt;&lt;/div&gt;`
 ]
@@ -378,8 +408,7 @@ const svg = container.append("svg")
 
 .pull-left[
 - Bind data to the SVG element using the `data()` method:
-  `const data = [10, 20, 30, 40, 50];`
-  `const circles = svg.selectAll("circle").data(data);`
+
 - This associates each data point with a corresponding SVG element (in this case, circles).
 
 ]
@@ -415,8 +444,7 @@ const circles = svg.selectAll("circle")
 .pull-left[
 - For each data point, append a circle element to the SVG using the `join()` method:
   `circles.join("circle");`
-- Set the attributes of the circles, such as `cx`, `cy`, and `r`, to define their position and size:
-  `circles.attr("cx", (d, i) =&gt; i * 50 + 50).attr("cy", 150).attr("r", (d) =&gt; d);`
+- Set the attributes of the circles, such as `cx`, `cy`, and `r`, to define their position and size
 ]
 
 .pull-right[
@@ -447,12 +475,13 @@ circles.join("circle")
 
 ## More on joins
 
--Select the elements: Use the selectAll() method to select the elements to which you want to bind the data. This can be done by providing a CSS selector or by selecting an existing selection. For example, d3.selectAll("circle") selects all the circle elements.
+- Select the elements: Use the selectAll() method to select the elements to which you want to bind the data. This can be done by providing a CSS selector or by selecting an existing selection. For example, d3.selectAll("circle") selects all the circle elements.
 
 - Bind the data: Call the data() method on the selection and pass the data array that you want to bind. The data array is typically an array of objects, with each object representing a data point. You can also specify an optional key function to uniquely identify each data point. For example, .data(data, d =&gt; d.id) binds the data array to the selection, using the id property as the key.
 
 - Join the enter, update, and exit selections: After binding the data, call the join() method on the selection. The join() method internally handles the enter, update, and exit selections based on the bound data. It returns a new selection that represents all the elements in the combined enter and update selections.
 
+---
 
 ## Next steps
 

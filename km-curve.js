@@ -7,16 +7,18 @@
 console = d3.window(svg.node()).console;
 
 //variables to control the censor dropping speed and line animation speed
-let line_animation_speed = 2000;
-let censor_drop_speed = 1500;
+let line_animation_speed = 5000;
+let censor_drop_speed = 4500;
 
 // set margins to rely on reactive r2d3 height and width
 const margin = { top: 0.05*width, right: 0.025*height,
                  bottom: 0.05*height, left: 0.1*width};
 
+// Set the plot width and height
 const plotWidth = width - margin.left - margin.right;
 const plotHeight = height - margin.top - margin.bottom;
 
+// Set the linewidth
 const lineWidth = 0.002*plotWidth;
 const axisTextSize = 0.03*plotWidth;
 
@@ -27,12 +29,14 @@ svg.attr("width", width).attr("height", height);
      .attr('class', 'graph')
      .attr("transform", 
        `translate(${margin.left}, ${margin.right})`);
+       
 // main on render function
 r2d3.onRender(function(data, svg, width, height, options) {
    // initiate tooltip selection
    d3.selectAll("div.tooltip").remove();
    plotArea.selectAll('.legend').remove();
    plotArea.selectAll('.legend_labels').remove();
+   
    // add axis labels
    // X-axis
    svg.append("text")             
@@ -53,11 +57,12 @@ r2d3.onRender(function(data, svg, width, height, options) {
         .attr("font-size", axisTextSize)
         .text("Survival");  
 
+
+  // Data Manipulation
   // grouped data     
-  var grouped_data = d3.group(data, d => d.group);
-  
-  var censored_data =data.filter(d => d.n_censor === 1);
-  var group_censored_data = d3.group(censored_data, d  => d.group);
+  let grouped_data = d3.group(data, d => d.group);
+  let censored_data =data.filter(d => d.n_censor === 1);
+  let group_censored_data = d3.group(censored_data, d  => d.group);
 
   // create axes
   
@@ -75,7 +80,7 @@ function drawAxis() {
   
   plotArea.selectAll(".axis").remove();
   
-  var axis_defX = plotArea.append("g")
+  let axis_defX = plotArea.append("g")
   .attr('class', 'axis x')
   .attr("transform", `translate(0, ${plotHeight})`)
   .call(d3.axisBottom(xAxis).ticks(10).tickSizeOuter(0))
@@ -83,7 +88,7 @@ function drawAxis() {
   .attr("font-size", axisTextSize);
 
 // Y-axis on the left  
-  var axis_defY =plotArea.append("g")
+  let axis_defY =plotArea.append("g")
     .attr('class', 'axis y')
     .call(d3.axisLeft(yAxis))
     .attr("stroke-width", lineWidth)
@@ -158,12 +163,12 @@ function drawCensor() {
   // remove censor objects if they already exist         
   plotArea.selectAll('.censor').remove();
   
-  var sym = d3.symbol()
+  let sym = d3.symbol()
             .type(d3.symbolDiamond).size(10);
              
   plotArea.append('g').attr('class', 'censor');
   
-   var censors = plotArea.select('g.censor')
+   let censors = plotArea.select('g.censor')
     .selectAll('path.line')
     .data(censored_data)
     .enter()
@@ -327,6 +332,8 @@ function lineTransition(path) {
   return line_trans;      
 } 
 
+
+// The main function
 function renderGraph() {
   drawAxis();
   drawKMCurves();
